@@ -17,3 +17,4 @@ Route::get('/about',['as'=>'about','uses'=>'Pages\StaticPagesController@about'])
 
 
 Route::get('signup',['as'=>'signup','uses'=>'UsersController@create']);
+Route::resource('users','UsersController');

@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'zh-CN',
 
     /*
     |--------------------------------------------------------------------------
@@ -163,10 +163,12 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        //Barryvdh\TranslationManager\ManagerServiceProvider::class,
 
         /*
          * Package Service Providers...
          */
+        Overtrue\LaravelLang\TranslationServiceProvider::class,
 
         /*
          * Application Service Providers...
