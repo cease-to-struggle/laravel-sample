@@ -17,4 +17,10 @@ Route::get('/about',['as'=>'about','uses'=>'Pages\StaticPagesController@about'])
 
 
 Route::get('signup',['as'=>'signup','uses'=>'UsersController@create']);
+//route解析是时候从前到后查找，找到第一个就会终止，所以容易引起歧义的需要放在前面
+//forexample  /users/create 和 /users/{id}  如果create放后面则解析时会使用/users/{id}  
+//create被当做参数报错
 Route::resource('users','UsersController');
+Route::get('login', 'SessionsController@create')->name('login');
+Route::post('login', 'SessionsController@store')->name('login');
+Route::delete('logout', 'SessionsController@destroy')->name('logout');
