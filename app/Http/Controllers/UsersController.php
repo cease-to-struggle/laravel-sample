@@ -8,6 +8,19 @@ use Auth;
 
 class UsersController extends Controller
 {  
+
+    /**
+     * [__construct description]
+     */
+    public function __construct(){
+        $this->middleware('auth',[
+            'except'=>['show','create','store']
+            ]);
+
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
     /**
      * 展示注册页面
      * @return [type] [description]
@@ -78,9 +91,16 @@ class UsersController extends Controller
      * 
      * @return [type] [description]
      */
-     public function edit(){
+     public function edit(User $user){
 
-    	echo '4';
+        try{
+            $this->authorize('update',$user);
+        }catch(\Exception $e){
+            session()->flash('danger','Invalid Operation');
+            redirect()->back();
+        }
+
+    	return view('users.edit',compact('user'));
 
     }
 
@@ -90,9 +110,31 @@ class UsersController extends Controller
      * 
      * @return [type] [description]
      */
-     public function update(){
+     public function update(User $user,Request $request){
 
-    	echo '5';
+    	$this->validate($request,[
+            'name'=>'required|max:50', 
+            'password'=>'nullable|confirmed|min:6'
+            ]);
+
+        try{
+            $this->authorize('update',$user);
+        }catch(\Exception $e){
+            session()->flash('danger','Invalid Operation');
+            redirect()->back();
+        }
+
+        $data = [];
+        $data['name'] = $request->name;
+        if($request->password){
+            $data['password'] = $request->password;
+        }
+
+        $user->update($data);
+
+        session()->flash('success','个人资料更新成功');
+
+        return redirect()->route('users.show',$user->id);
 
     }
  
