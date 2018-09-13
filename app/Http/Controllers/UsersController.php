@@ -176,7 +176,9 @@ class UsersController extends Controller
 
         Mail::send($view,$data,function($message) use($from,$name,$to,$subject){
 
-            $message->from($from,$name)->to($to)->subject($subject);
+            $message->
+            //from($from,$name)->  配置在.env中  MAIL
+            to($to)->subject($subject);
         });
     }
 
