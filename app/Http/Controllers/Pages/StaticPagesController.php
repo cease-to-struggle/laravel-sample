@@ -5,12 +5,23 @@ namespace App\Http\Controllers\Pages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Models\Status;
+use Auth;
+
 class StaticPagesController extends Controller
 {
 	//TODO:return the home page
 	public function home()
 	{
-		return view('static-pages.home');
+		$feed_items = [];
+
+		if(Auth::check()){
+			$feed_items = Auth::user()->statuses()
+									  ->orderBy('created_at','desc')
+									  ->paginate(30);
+		}
+
+		return view('static-pages.home',compact('feed_items'));
 	}
 
 	//TODO:return the help page
