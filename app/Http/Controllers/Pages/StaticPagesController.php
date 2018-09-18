@@ -16,8 +16,8 @@ class StaticPagesController extends Controller
 		$feed_items = [];
 
 		if(Auth::check()){
-			$feed_items = Auth::user()->statuses()
-									  ->orderBy('created_at','desc')
+			
+			$feed_items = Auth::user()->feed()
 									  ->paginate(30);
 		}
 
